@@ -1,7 +1,10 @@
+import 'reflect-metadata';
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import routes from './shared/routes/index';
 import AppError from '@shared/errors/AppError';
+import '@shared/typeorm';
+
 const app = express();
 
 app.use(cors());
