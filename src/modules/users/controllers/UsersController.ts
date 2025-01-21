@@ -8,7 +8,8 @@ export default class UsersController {
 
     const users = await listUser.execute();
 
-    return response.json(users);
+    response.json(users);
+    return;
   }
 
   public async create(request: Request, response: Response) {
@@ -17,6 +18,7 @@ export default class UsersController {
 
     const user = await createUsers.execute({ name, email, password });
 
-    return response.json(user);
+    response.json(user);
+    return;
   }
 }
