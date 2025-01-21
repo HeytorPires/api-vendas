@@ -37,13 +37,26 @@ export default class ProductsController {
     }
   }
 
-  public async create(request: Request, response: Response): Promise<Response> {
+  public async create(request: Request, response: Response) {
     const { name, price, quantity } = request.body;
 
-    const createProduct = new CreateProductService();
-    const product = await createProduct.execute({ name, price, quantity });
+    try {
+      const createProduct = new CreateProductService();
+      const product = await createProduct.execute({ name, price, quantity });
 
-    return response.status(201).json(product);
+      response.status(201).json(product); // Retorna o produto criado
+      return;
+    } catch (error) {
+      console.error('Erro ao criar produto:', error);
+
+      if (error instanceof AppError) {
+        response.status(error.statusCode).json({ message: error.message });
+        return;
+      }
+
+      response.status(500).json({ message: 'Internal server error' });
+      return;
+    }
   }
 
   public async update(request: Request, response: Response) {
