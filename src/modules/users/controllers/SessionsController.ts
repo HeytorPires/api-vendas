@@ -1,15 +1,23 @@
 import { Request, Response } from 'express';
 import CreateSessionsService from '@modules/users/services/CreateSessionsService';
+import AppError from '@shared/errors/AppError';
 
 class SessionsController {
-  public async create(req: Request, res: Response): Promise<void> {
-    const { email, password } = req.body;
+  public async create(request: Request, response: Response): Promise<void> {
+    const { email, password } = request.body;
+    try {
+      const createSessionsService = new CreateSessionsService();
 
-    const createSessionsService = new CreateSessionsService();
-
-    const user = await createSessionsService.execute({ email, password });
-    res.json(user); // O res.json já envia a resposta e encerra a requisição
-    return;
+      const user = await createSessionsService.execute({ email, password });
+      response.json(user); // O res.json já envia a resposta e encerra a requisição
+      return;
+    } catch (error) {
+      if (error instanceof AppError) {
+        response.status(error.statusCode).json({ message: error.message });
+        return;
+      }
+      return;
+    }
   }
 }
 

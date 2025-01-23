@@ -15,8 +15,10 @@ export default class ProductsController {
       response.json(products); // Retorna os produtos
       return;
     } catch (error) {
-      console.error(error);
-      response.status(500).json({ message: 'Internal server error' });
+      if (error instanceof AppError) {
+        response.status(error.statusCode).json({ message: error.message });
+        return;
+      }
       return;
     }
   }
@@ -31,8 +33,10 @@ export default class ProductsController {
       response.json(product); // Retorna o produto encontrado
       return;
     } catch (error) {
-      console.log(error);
-      response.status(500).json({ message: 'Internal server error' });
+      if (error instanceof AppError) {
+        response.status(error.statusCode).json({ message: error.message });
+        return;
+      }
       return;
     }
   }
@@ -75,8 +79,10 @@ export default class ProductsController {
       response.json(product); // Retorna o produto atualizado
       return;
     } catch (error) {
-      console.error(error);
-      response.status(500).json({ message: 'Internal server error' });
+      if (error instanceof AppError) {
+        response.status(error.statusCode).json({ message: error.message });
+        return;
+      }
       return;
     }
   }
@@ -91,8 +97,10 @@ export default class ProductsController {
       response.status(204).send(); // Retorna 204 No Content após a exclusão
       return;
     } catch (error) {
-      console.error(error);
-      response.status(500).json({ message: 'Internal server error' });
+      if (error instanceof AppError) {
+        response.status(error.statusCode).json({ message: error.message });
+        return;
+      }
       return;
     }
   }
