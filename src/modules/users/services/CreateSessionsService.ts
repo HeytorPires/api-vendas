@@ -4,7 +4,7 @@ import UsersRepository from '../typeorm/repositories/UsersRepository';
 import bcrypt from 'bcryptjs';
 import { getCustomRepository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
-
+import authConfig from '@config/auth';
 interface IRequest {
   email: string;
   password: string;
@@ -29,7 +29,9 @@ class CreateSessionsService {
     if (!isPasswordCorrect) {
       throw new AppError('Incorrect email/password combination.', 401);
     }
-    const hashToken = '9c52f3311a73c9ccaab930b1c71d73f8';
+    const hashToken: string = authConfig.jwt.secret;
+    // melhor seria a constante a baixo, mas a tipagem do projeto está zuada
+    // const ExpiresTime: string | number = authConfig.jwt.expiresIn;
     const token = sign({}, hashToken, {
       subject: user.id,
       expiresIn: '1d',
