@@ -48,8 +48,8 @@ class UpdateProfileService {
       const saltRounds = 8;
       user.password = await bcrypt.hash(password, saltRounds);
     }
-    user.email;
-    user.name;
+    user.email = email;
+    user.name = name;
 
     await usersRepository.save(user);
 
