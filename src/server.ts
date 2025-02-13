@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
@@ -35,7 +36,7 @@ app.use(
   }
 );
 
-app.listen(3333, () => {
+app.listen(process.env.APP_API_URL, () => {
   console.log('****************************');
   console.log('');
   console.log('Escutando na Porta 3333! 😁');

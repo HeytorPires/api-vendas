@@ -11,10 +11,10 @@ interface IRequest {
 
 class SendForgotPasswordEmailService {
   public async execute({ email }: IRequest) {
+    const appWebUrl = process.env.APP_WEB_URL;
     const usersRepository = getCustomRepository(UsersRepository);
     const userTokensRepository = getCustomRepository(UserTokensRepository);
     const user = await usersRepository.findByEmail(email);
-
     if (!user) {
       throw new AppError('User does not exists.');
     }
@@ -37,7 +37,7 @@ class SendForgotPasswordEmailService {
         file: forgotPasswordTemplate,
         variables: {
           name: user.name,
-          link: `http://localhost:3000/reset_password?token=${token}`,
+          link: `${appWebUrl}/reset_password?token=${token}`,
         },
       },
     });
