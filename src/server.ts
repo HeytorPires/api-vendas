@@ -36,7 +36,7 @@ app.use(
   }
 );
 
-app.listen(process.env.APP_API_URL, () => {
+app.listen(3333, () => {
   console.log('****************************');
   console.log('');
   console.log('Escutando na Porta 3333! 😁');

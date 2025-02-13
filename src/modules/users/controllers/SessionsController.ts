@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import CreateSessionsService from '@modules/users/services/CreateSessionsService';
 import AppError from '@shared/errors/AppError';
+import { instanceToInstance } from 'class-transformer';
 
 class SessionsController {
   public async create(request: Request, response: Response): Promise<void> {
@@ -8,7 +9,7 @@ class SessionsController {
     const createSessionsService = new CreateSessionsService();
 
     const user = await createSessionsService.execute({ email, password });
-    response.json(user); // O res.json já envia a resposta e encerra a requisição
+    response.json(instanceToInstance(user)); // O res.json já envia a resposta e encerra a requisição
     return;
   }
 }
