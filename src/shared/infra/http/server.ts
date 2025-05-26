@@ -9,13 +9,14 @@ import routes from './routes/index.routes';
 import AppError from '@shared/errors/AppError';
 import '@shared/infra/typeorm';
 import uploadConfig from '@config/upload';
-import rateLimiter from './middleware/rateLimiter';
+// import rateLimiter from './middleware/rateLimiter';
 
+const port = process.env.APP_PORT;
 const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(rateLimiter);
+// app.use(rateLimiter);
 app.use(pagination);
 app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
@@ -38,8 +39,8 @@ app.use(
   }
 );
 
-app.listen(3333, () => {
+app.listen(port, () => {
   console.log('****************************');
   console.log('');
-  console.log('Escutando na Porta 3333! 😁');
+  console.log(`Escutando na Porta ${port} ! 😁`);
 });

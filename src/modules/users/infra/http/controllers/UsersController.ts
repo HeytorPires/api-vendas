@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import ListUserService from '../../../services/ListUserService';
-import CreateUserService from '../../../services/CreateSessionsService';
+import CreateUserService from '../../../services/CreateUserService';
 import AppError from '@shared/errors/AppError';
 import { instanceToInstance } from 'class-transformer';
 
