@@ -5,13 +5,15 @@ import CreateCustomerService from '../../../services/CreateCustomerService';
 import UpdateCustomerService from '../../../services/UpdateCustomerService';
 import DeleteCustomerService from '../../../services/DeleteCustomerService';
 import AppError from '@shared/errors/AppError';
+import CustomersRepository from '../../typeorm/repositories/CustomersRepository';
+import { container } from 'tsyringe';
 
 export default class CustomerController {
   public async index(request: Request, response: Response) {
     const listCsutomers = new ListCustomersService();
     const customers = await listCsutomers.execute();
 
-    response.json(customers); // Retorna os produtos
+    response.json(customers);
     return;
   }
 
@@ -28,10 +30,11 @@ export default class CustomerController {
   public async create(request: Request, response: Response) {
     const { name, email } = request.body;
 
-    const createCustomer = new CreateCustomerService();
+    const createCustomer = container.resolve(CreateCustomerService);
+
     const Customer = await createCustomer.execute({ name, email });
 
-    response.status(201).json(Customer); // Retorna o produto criado
+    response.status(201).json(Customer);
     return;
   }
 

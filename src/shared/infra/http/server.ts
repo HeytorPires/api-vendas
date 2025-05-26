@@ -8,7 +8,9 @@ import { errors } from 'celebrate';
 import routes from './routes/index.routes';
 import AppError from '@shared/errors/AppError';
 import '@shared/infra/typeorm';
+import '@shared/container';
 import uploadConfig from '@config/upload';
+
 // import rateLimiter from './middleware/rateLimiter';
 
 const port = process.env.APP_PORT;
