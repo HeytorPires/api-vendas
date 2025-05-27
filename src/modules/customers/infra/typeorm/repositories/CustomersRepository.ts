@@ -1,7 +1,11 @@
-import { EntityRepository, Repository, getRepository } from 'typeorm';
+import { Repository, getRepository } from 'typeorm';
 import Customer from '../entities/Customer';
-import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
+import {
+  ICustomerRepository,
+  SearchParams,
+} from '@modules/customers/domain/repositories/ICustomerRepository';
 import { ICreateCustomer } from '@modules/customers/domain/models/ICreateCustomer';
+import { IPaginateCustomer } from '@modules/customers/domain/models/IPaginateCustomer';
 
 class CustomersRepository implements ICustomerRepository {
   private ormRepository: Repository<Customer>;
@@ -22,6 +26,9 @@ class CustomersRepository implements ICustomerRepository {
 
     return customer;
   }
+  public async remove(customer: Customer): Promise<void> {
+    await this.ormRepository.remove(customer);
+  }
 
   public async findByName(name: string): Promise<Customer | undefined> {
     const customer = await this.ormRepository.findOne({ where: { name } });
@@ -34,6 +41,30 @@ class CustomersRepository implements ICustomerRepository {
   public async findByEmail(email: string): Promise<Customer | undefined> {
     const customer = await this.ormRepository.findOne({ where: { email } });
     return customer;
+  }
+  public async findAll({
+    page,
+    skip,
+    take,
+  }: SearchParams): Promise<IPaginateCustomer> {
+    const [customers, count] = await this.ormRepository
+      .createQueryBuilder()
+      .skip(skip)
+      .take(take)
+      .getManyAndCount();
+
+    const lastPage = Math.ceil(count / take);
+
+    return {
+      from: skip + 1,
+      to: skip + customers.length,
+      per_page: take,
+      total: count,
+      current_page: page,
+      prev_page: page > 1 ? page - 1 : null,
+      next_page: page < lastPage ? page + 1 : null,
+      data: customers,
+    };
   }
 }
 
