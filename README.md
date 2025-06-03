@@ -155,22 +155,10 @@ Verifique o arquivo `package.json` para a lista completa de scripts. Alguns dos 
 * `typeorm: run`: Acesso as rodar as migrations do TypeORM para operações de banco de dados.
 * `typeorm: generate`: Acesso as geração de migrations do TypeORM para operações de banco de dados.
 * `up`: Sobe os containers Docker definidos no `docker-compose.yml`.
-
+* 
 ---
 
-## 📄 Documentação da API (Swagger/OpenAPI)
-
-Se o Swagger ou OpenAPI estiver configurado, a documentação interativa da API geralmente está disponível em um endpoint como `/api-docs` ou `/docs` após iniciar a aplicação.
-
-Exemplo: `http://localhost:3333/api-docs`
-
-*(Adicione esta seção se você implementou ou planeja implementar documentação com Swagger/OpenAPI).*
-
----
-
-## 🏗️ Estrutura do Projeto (Exemplo)
-
-Uma breve visão geral da estrutura de pastas do projeto pode ser:
+## 🏗️ Estrutura do Projeto 
 
 ```
 /
