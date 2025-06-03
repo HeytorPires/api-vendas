@@ -1,19 +1,19 @@
 import AppError from '@shared/errors/AppError';
-import User from '../infra/typeorm/entities/User';
-import { getCustomRepository } from 'typeorm';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
 import bcrypt from 'bcryptjs';
+import { ICreateUser } from '../infra/domain/models/ICreateUser';
+import { inject, injectable } from 'tsyringe';
+import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
 
-interface IRequest {
-  name: string;
-  email: string;
-  password: string;
-}
-
+@injectable()
 class CreateUserService {
-  public async execute({ name, email, password }: IRequest) {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const emailExists = await usersRepository.findByEmail(email);
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUserRepository
+  ) {
+    this.usersRepository;
+  }
+  public async execute({ name, email, password }: ICreateUser) {
+    const emailExists = await this.usersRepository.findByEmail(email);
 
     if (emailExists) {
       throw new AppError('Email address alredy used.');
@@ -21,13 +21,11 @@ class CreateUserService {
     const saltRounds = 8;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const user = usersRepository.create({
+    const user = this.usersRepository.create({
       name,
       email,
       password: hashedPassword,
     });
-
-    await usersRepository.save(user);
 
     return user;
   }

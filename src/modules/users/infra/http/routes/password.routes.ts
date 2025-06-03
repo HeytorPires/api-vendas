@@ -27,7 +27,7 @@ passwordRouter.post(
     },
   }),
   //   isAuthenticated,
-  resetPasswordController.create
+  resetPasswordController.Reset
 );
 
 export default passwordRouter;
