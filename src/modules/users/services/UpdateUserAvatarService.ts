@@ -2,9 +2,9 @@ import AppError from '@shared/errors/AppError';
 import path from 'path';
 import uploadConfig from '@config/upload';
 import fs from 'fs';
-import { IUpdateUserAvatar } from '../infra/domain/models/IUpdateUserAvatar';
+import { IUpdateUserAvatar } from '../domain/models/IUpdateUserAvatar';
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 class UpdateUserAvatarService {

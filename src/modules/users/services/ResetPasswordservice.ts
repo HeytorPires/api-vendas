@@ -3,10 +3,10 @@ import { getCustomRepository } from 'typeorm';
 import UserTokensRepository from '../infra/typeorm/repositories/UserTokensRepository';
 import { isAfter, addHours } from 'date-fns';
 import { hash } from 'bcryptjs';
-import { IResetPasswordUser } from '../infra/domain/models/IResetPasswordUser';
+import { IResetPasswordUser } from '../domain/models/IResetPasswordUser';
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
-import { IUserTokensRepository } from '../infra/domain/repositories/IUserTokensRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IUserTokensRepository } from '../domain/repositories/IUserTokensRepository';
 
 @injectable()
 class ResetPasswordService {

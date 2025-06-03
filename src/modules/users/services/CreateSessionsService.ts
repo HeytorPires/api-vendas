@@ -7,9 +7,9 @@ import authConfig from '@config/auth';
 import {
   IRequestCreateSession,
   IResponseCreateSession,
-} from '../infra/domain/models/ICreateSessions';
+} from '../domain/models/ICreateSessions';
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 class CreateSessionsService {

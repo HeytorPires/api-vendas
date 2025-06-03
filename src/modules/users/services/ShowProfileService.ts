@@ -1,7 +1,7 @@
 import AppError from '@shared/errors/AppError';
-import { IUser } from '../infra/domain/models/IUser';
+import { IUser } from '../domain/models/IUser';
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 class ShowProfileService {

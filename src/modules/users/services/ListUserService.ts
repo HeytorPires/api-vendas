@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
-import { IUser } from '../infra/domain/models/IUser';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IUser } from '../domain/models/IUser';
 
 @injectable()
 class ListUserService {

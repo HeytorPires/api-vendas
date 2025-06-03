@@ -1,8 +1,8 @@
 import AppError from '@shared/errors/AppError';
 import bcrypt from 'bcryptjs';
-import { ICreateUser } from '../infra/domain/models/ICreateUser';
+import { ICreateUser } from '../domain/models/ICreateUser';
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 class CreateUserService {

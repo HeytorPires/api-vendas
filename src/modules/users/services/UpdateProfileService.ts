@@ -1,9 +1,9 @@
 import AppError from '@shared/errors/AppError';
 import bcrypt from 'bcryptjs';
-import { IUpdateProfileUser } from '../infra/domain/models/IUpdateProfileUser';
-import { IUser } from '../infra/domain/models/IUser';
+import { IUpdateProfileUser } from '../domain/models/IUpdateProfileUser';
+import { IUser } from '../domain/models/IUser';
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
 
 @injectable()
 class UpdateProfileService {

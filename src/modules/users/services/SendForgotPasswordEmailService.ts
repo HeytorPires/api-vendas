@@ -1,10 +1,10 @@
 import AppError from '@shared/errors/AppError';
 import path from 'path';
 import EtherealMail from '@config/mail/EtherealMail';
-import { ISendForgotPasswordEmailUser } from '../infra/domain/models/ISendForgotPasswordEmailUser';
+import { ISendForgotPasswordEmailUser } from '../domain/models/ISendForgotPasswordEmailUser';
 import { inject, injectable } from 'tsyringe';
-import { IUserRepository } from '../infra/domain/repositories/IUserRepository';
-import { IUserTokensRepository } from '../infra/domain/repositories/IUserTokensRepository';
+import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IUserTokensRepository } from '../domain/repositories/IUserTokensRepository';
 
 @injectable()
 class SendForgotPasswordEmailService {
