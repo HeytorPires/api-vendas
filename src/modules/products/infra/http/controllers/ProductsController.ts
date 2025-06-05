@@ -4,21 +4,21 @@ import ShowProductService from '../../../services/ShowProductService';
 import CreateProductService from '../../../services/CreateProductService';
 import UpdateProductService from '../../../services/UpdateProductService';
 import DeleteProductService from '../../../services/DeleteProductService';
-import AppError from '@shared/errors/AppError';
+import { container } from 'tsyringe';
 
 export default class ProductsController {
   public async index(request: Request, response: Response) {
-    const listProducts = new ListProductService();
+    const listProducts = container.resolve(ListProductService);
     const products = await listProducts.execute();
 
-    response.json(products); // Retorna os produtos
+    response.json(products);
     return;
   }
 
   public async show(request: Request, response: Response) {
     const { id } = request.params;
 
-    const showProduct = new ShowProductService();
+    const showProduct = container.resolve(ShowProductService);
     const product = await showProduct.execute({ id });
 
     response.json(product); // Retorna o produto encontrado
@@ -28,7 +28,7 @@ export default class ProductsController {
   public async create(request: Request, response: Response) {
     const { name, price, quantity } = request.body;
 
-    const createProduct = new CreateProductService();
+    const createProduct = container.resolve(CreateProductService);
     const product = await createProduct.execute({ name, price, quantity });
 
     response.status(201).json(product); // Retorna o produto criado
@@ -39,7 +39,7 @@ export default class ProductsController {
     const { name, price, quantity } = request.body;
     const { id } = request.params;
 
-    const updateProduct = new UpdateProductService();
+    const updateProduct = container.resolve(UpdateProductService);
     const product = await updateProduct.execute({
       id,
       name,
@@ -54,8 +54,8 @@ export default class ProductsController {
   public async delete(request: Request, response: Response) {
     const { id } = request.params;
 
-    const deleteProduct = new DeleteProductService();
-    await deleteProduct.execute({ id });
+    const deleteProduct = container.resolve(DeleteProductService);
+    await deleteProduct.execute(id);
 
     response.status(204).send(); // Retorna 204 No Content após a exclusão
     return;

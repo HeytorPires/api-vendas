@@ -42,6 +42,10 @@ class CustomersRepository implements ICustomerRepository {
     const customer = await this.ormRepository.findOne({ where: { email } });
     return customer;
   }
+  public async list(): Promise<Customer[] | undefined> {
+    const user = await this.ormRepository.find();
+    return user;
+  }
   public async findAll({
     page,
     skip,
