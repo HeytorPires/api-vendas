@@ -32,7 +32,7 @@ class CreateSessionsService {
     if (!isPasswordCorrect) {
       throw new AppError('Incorrect email/password combination.', 401);
     }
-    const hashToken: string = authConfig.jwt.secret;
+    const hashToken: string = authConfig.jwt.secret!;
     // melhor seria a constante a baixo, mas a tipagem do projeto está zuada
     // const ExpiresTime: string | number = authConfig.jwt.expiresIn;
     const token = sign({}, hashToken, {
