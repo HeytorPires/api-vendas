@@ -1,14 +1,16 @@
 import AppError from '@shared/errors/AppError';
-import bcrypt from 'bcryptjs';
 import { ICreateUser } from '../domain/models/ICreateUser';
 import { inject, injectable } from 'tsyringe';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IHashProvider } from '../providers/HashProvider/models/iHashProvider';
 
 @injectable()
 class CreateUserService {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUserRepository
+    private usersRepository: IUserRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
   ) {
     this.usersRepository;
   }
@@ -18,8 +20,7 @@ class CreateUserService {
     if (emailExists) {
       throw new AppError('Email address alredy used.');
     }
-    const saltRounds = 8;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    const hashedPassword = await this.hashProvider.generateHash(password);
 
     const user = this.usersRepository.create({
       name,

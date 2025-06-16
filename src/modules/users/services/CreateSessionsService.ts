@@ -1,7 +1,4 @@
 import AppError from '@shared/errors/AppError';
-import UsersRepository from '../infra/typeorm/repositories/UsersRepository';
-import bcrypt from 'bcryptjs';
-import { getCustomRepository } from 'typeorm';
 import { sign } from 'jsonwebtoken';
 import authConfig from '@config/auth';
 import {
@@ -10,12 +7,15 @@ import {
 } from '../domain/models/ICreateSessions';
 import { inject, injectable } from 'tsyringe';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
 
 @injectable()
 class CreateSessionsService {
   constructor(
     @inject('UsersRepository')
-    private usersRepository: IUserRepository
+    private usersRepository: IUserRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider
   ) {}
   public async execute({
     email,
@@ -27,7 +27,10 @@ class CreateSessionsService {
       throw new AppError('Incorrect email/password combination.', 401);
     }
     const hashedPassword = user.password;
-    const isPasswordCorrect = await bcrypt.compare(password, hashedPassword);
+    const isPasswordCorrect = await this.hashProvider.compareHash(
+      password,
+      hashedPassword
+    );
 
     if (!isPasswordCorrect) {
       throw new AppError('Incorrect email/password combination.', 401);
