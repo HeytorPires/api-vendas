@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { ICustomerRepository } from '../domain/repositories/ICustomerRepository';
 import { IPaginateCustomer } from '../domain/models/IPaginateCustomer';
+import AppError from '@shared/errors/AppError';
 
 interface SearchParams {
   page: number;
@@ -26,7 +27,10 @@ class ListCustomerService {
       take,
     });
 
-    return customers;
+    if (!customers) {
+      throw new AppError('There is no client to list');
+    }
+    return customers!;
   }
 }
 
