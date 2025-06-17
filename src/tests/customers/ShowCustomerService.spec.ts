@@ -2,34 +2,29 @@ import 'reflect-metadata';
 import CreateCustomerService from '@modules/customers/services/CreateCustomerService';
 import FakeCustomersRepository from '@modules/customers/domain/repositories/fakes/FakeCustomersRepositorys';
 import AppError from '@shared/errors/AppError';
-import ListCustomerService from '@modules/customers/services/ListCustomersService';
+import ShowCustomerService from '@modules/customers/services/ShowCustomerService';
 
 let fakeCustomersRepository: FakeCustomersRepository;
-let ListCustomer: ListCustomerService;
+let showCustomer: ShowCustomerService;
 let CreateCustomer: CreateCustomerService;
-describe('List Customer', () => {
+describe('Show Customer', () => {
   beforeEach(() => {
     fakeCustomersRepository = new FakeCustomersRepository();
-    ListCustomer = new ListCustomerService(fakeCustomersRepository);
+    showCustomer = new ShowCustomerService(fakeCustomersRepository);
     CreateCustomer = new CreateCustomerService(fakeCustomersRepository);
   });
-  it('should not list customers when none exist ', async () => {
-    const page = 1;
-    const limit = 10;
+  it('should not show customer when not exist ', async () => {
+    const id = '123456789abcd';
 
-    await expect(ListCustomer.execute({ page, limit })).rejects.toBeInstanceOf(
-      AppError
-    );
+    await expect(showCustomer.execute({ id })).rejects.toBeInstanceOf(AppError);
   });
   it('should be able to list all customers', async () => {
-    const page = 1;
-    const limit = 10;
-    await CreateCustomer.execute({
+    const customer = await CreateCustomer.execute({
       name: 'João silva',
-
       email: 'João@gmail.com',
     });
-    const customers = await ListCustomer.execute({ page, limit });
-    expect(customers.data).not.toHaveLength(0);
+    const { id } = customer;
+    const customerShow = await showCustomer.execute({ id });
+    expect(customerShow).toHaveProperty('id');
   });
 });

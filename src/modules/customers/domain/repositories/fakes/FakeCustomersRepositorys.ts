@@ -40,7 +40,24 @@ class FakeCustomersRepository
     skip,
     take,
   }: SearchParams): Promise<IPaginateCustomer | undefined> {
-    return undefined;
+    const start = skip;
+    const end = skip + take;
+
+    const paginated = this.customers.slice(start, end);
+
+    const total = this.customers.length;
+    const totalPages = Math.ceil(total / take);
+
+    return {
+      from: start + 1,
+      to: Math.min(end, total),
+      per_page: take,
+      total,
+      current_page: page,
+      prev_page: page > 1 ? page - 1 : null,
+      next_page: page < totalPages ? page + 1 : null,
+      data: paginated,
+    };
   }
   public async findByName(name: string): Promise<Customer | undefined> {
     const customer = this.customers.find((c) => c.name === name);

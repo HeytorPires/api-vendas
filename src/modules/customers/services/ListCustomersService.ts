@@ -27,7 +27,7 @@ class ListCustomerService {
       take,
     });
 
-    if (!customers) {
+    if (customers?.data.length === 0) {
       throw new AppError('There is no client to list');
     }
     return customers!;

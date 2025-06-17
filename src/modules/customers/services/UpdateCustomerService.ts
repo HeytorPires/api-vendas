@@ -1,5 +1,3 @@
-import { getCustomRepository } from 'typeorm';
-import CustomersRepository from '../infra/typeorm/repositories/CustomersRepository';
 import AppError from '@shared/errors/AppError';
 import { IUpdateCustomer } from '../domain/models/IUpdateCustomer';
 import { ICustomer } from '../domain/models/ICustomer';
