@@ -37,4 +37,24 @@ describe('Update Customer', () => {
     expect(customerShow.name).toEqual(name);
     expect(customerShow.id).toEqual(id);
   });
+  it('should be able to list all customers', async () => {
+    const customer = await CreateCustomer.execute({
+      name: 'João silva',
+      email: 'João@gmail.com',
+    });
+    const customerWithEmailExistent = await CreateCustomer.execute({
+      name: 'João silva',
+      email: 'João1@gmail.com',
+    });
+    const { id, name } = customer;
+    const { email } = customerWithEmailExistent;
+
+    await expect(
+      updateCustomerService.execute({
+        id,
+        name,
+        email,
+      })
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });

@@ -20,14 +20,15 @@ describe('Create Customer', () => {
     expect(customer).toHaveProperty('id');
   });
   it('should not be able to create two customers with the same email', async () => {
-    await CreateCustomer.execute({
-      name: 'João silva',
-      email: 'João@gmail.com',
+    const customer = await CreateCustomer.execute({
+      name: 'João Silva',
+      email: 'joao@gmail.com',
     });
-    expect(
+    const { email } = customer;
+    await expect(
       CreateCustomer.execute({
-        name: 'João silva',
-        email: 'João@gmail.com',
+        name: 'João Silva',
+        email,
       })
     ).rejects.toBeInstanceOf(AppError);
   });
