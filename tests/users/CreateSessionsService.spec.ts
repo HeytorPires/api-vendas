@@ -33,6 +33,28 @@ describe('CreateSession', () => {
     expect(response).toHaveProperty('token');
     expect(response.user).toEqual(user);
   });
+  it('should be able to authenticate with wrong password', async () => {
+    const user = await fakeUsersRepository.create({
+      name: 'joao',
+      email: 'João@gmail.com',
+      password: '123456',
+    });
+
+    await expect(
+      CreateSession.execute({
+        email: 'João@gmail.com',
+        password: 'abcdef',
+      })
+    ).rejects.toBeInstanceOf(AppError);
+  });
+  it('should be able to authenticate without user', async () => {
+    await expect(
+      CreateSession.execute({
+        email: 'João@gmail.com',
+        password: '123456',
+      })
+    ).rejects.toBeInstanceOf(AppError);
+  });
   //   it('should not be able to create two users with the same email', async () => {
   //     const User = await fakeUsersRepository.create({
   //       name: 'joao',
