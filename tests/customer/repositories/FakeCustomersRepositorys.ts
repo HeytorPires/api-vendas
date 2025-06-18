@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
-import Customer from '@modules/customers/infra/typeorm/entities/Customer';
+import Customer from '../../../src/modules/customers/infra/typeorm/entities/Customer';
 
 import {
   ICustomerRepository,
   SearchParams,
-} from '@modules/customers/domain/repositories/ICustomerRepository';
-import { ICreateCustomer } from '@modules/customers/domain/models/ICreateCustomer';
-import { IPaginateCustomer } from '@modules/customers/domain/models/IPaginateCustomer';
+} from '../../../src/modules/customers/domain/repositories/ICustomerRepository';
+import { ICreateCustomer } from '../../../src/modules/customers/domain/models/ICreateCustomer';
+import { IPaginateCustomer } from '../../../src/modules/customers/domain/models/IPaginateCustomer';
 
 class FakeCustomersRepository
   implements Omit<ICustomerRepository, 'remove' | 'findAll' | 'list'>
