@@ -1,45 +1,49 @@
-import { getCustomRepository } from 'typeorm';
-import { OrdersRepository } from '../infra/typeorm/repositories/OrdersRepository';
 import AppError from '@shared/errors/AppError';
-import Order from '../infra/typeorm/entities/Order';
-import CustomersRepository from '@modules/customers/infra/typeorm/repositories/CustomersRepository';
-import { ProductRepository } from '@modules/products/infra/typeorm/repositories/ProductsRepository';
+import ICreateOrders from '../domain/models/ICreateOrders';
+import { inject, injectable } from 'tsyringe';
+import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository';
+import { IOrderRepository } from '../domain/repositories/IOrderRepository';
+import { ICustomerRepository } from '@modules/customers/domain/repositories/ICustomerRepository';
+import { IOrder } from '../domain/models/IOrders';
+import OrderProducts from '../infra/typeorm/entities/OrdersProducts';
 
-interface IProduct {
-  id: string;
-  quantity: number;
-}
-
-interface IRequest {
-  customer_id: string;
-  products: IProduct[];
-}
-
+@injectable()
 class CreateOrderService {
-  public async execute({ customer_id, products }: IRequest): Promise<void> {
-    const ordersRepository = getCustomRepository(OrdersRepository);
-    const customerRepository = getCustomRepository(CustomersRepository);
-    const productsRepository = getCustomRepository(ProductRepository);
-
-    const customerExists = await customerRepository.findById(customer_id);
+  constructor(
+    @inject('ProductsRepository')
+    private productsRepository: IProductsRepository,
+    @inject('OrdersRepositorys')
+    private ordersRepositorys: IOrderRepository,
+    @inject('CustomerRepository')
+    private customerRepository: ICustomerRepository
+  ) {
+    this.customerRepository;
+    this.ordersRepositorys;
+    this.productsRepository;
+  }
+  public async execute({
+    customer_id,
+    products,
+  }: ICreateOrders): Promise<IOrder> {
+    const customerExists = await this.customerRepository.findById(customer_id);
     if (!customerExists) {
       throw new AppError('Could not find any customer with the given id');
     }
 
-    const productExist = await productsRepository.findAllByIds(products);
+    const productExist = await this.productsRepository.findAllByIds(products);
     if (!productExist) {
       throw new AppError('Could not find any products with the given ids');
     }
 
     const existsProductsIds = productExist.map((product) => product.id);
 
-    const checkInesxistentProducts = products.filter(
+    const checkInexistentProducts = products.filter(
       (product) => !existsProductsIds.includes(product.id)
     );
 
-    if (!checkInesxistentProducts.length) {
+    if (!checkInexistentProducts.length) {
       throw new AppError(
-        `Could not find any product ${checkInesxistentProducts[0].id}`
+        `Could not find any product ${checkInexistentProducts[0].id}`
       );
     }
 
@@ -58,21 +62,29 @@ class CreateOrderService {
       price: productExist.filter((p) => p.id === product.id)[0].price,
       quantity: product.quantity,
     }));
-    const order = await ordersRepository.createOrder({
+    const order = await this.ordersRepositorys.create({
       customer: customerExists,
       products: serializedProducts,
     });
 
     const { order_products } = order;
+    const updatedProductQuantity = productExist.map((product) => {
+      const orderProduct = order_products.find(
+        (p) => p.product.id === product.id
+      );
 
-    const updatedProductQuantity = order_products.map((product) => ({
-      id: product.product_id,
-      quantity:
-        productExist.filter((p) => p.id === product.id)[0].quantity -
-        product.quantity,
-    }));
+      if (!orderProduct) return product;
 
-    await productsRepository.save(updatedProductQuantity);
+      return {
+        ...product,
+        quantity: product.quantity - orderProduct.quantity,
+      };
+    });
+    for (const product of updatedProductQuantity) {
+      await this.productsRepository.save(product);
+    }
+
+    return order;
   }
 }
 

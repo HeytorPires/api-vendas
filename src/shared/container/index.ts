@@ -8,9 +8,11 @@ import { IUserRepository } from '@modules/users/domain/repositories/IUserReposit
 import { IUserTokensRepository } from '@modules/users/domain/repositories/IUserTokensRepository';
 import ProductRepository from '@modules/products/infra/typeorm/repositories/ProductsRepository';
 import { IProductsRepository } from '@modules/products/domain/repositories/IProductsRepository';
+import { OrdersRepository } from '@modules/orders/infra/typeorm/repositories/OrdersRepository';
 
 //Chamando todos os providers do providers
 import '@modules/users/providers';
+import { IOrderRepository } from '@modules/orders/domain/repositories/IOrderRepository';
 
 container.registerSingleton<ICustomerRepository>(
   'CustomersRepository',
@@ -28,4 +30,8 @@ container.registerSingleton<IUserTokensRepository>(
 container.registerSingleton<IProductsRepository>(
   'ProductsRepository',
   ProductRepository
+);
+container.registerSingleton<IOrderRepository>(
+  'OrdersRepository',
+  OrdersRepository
 );
