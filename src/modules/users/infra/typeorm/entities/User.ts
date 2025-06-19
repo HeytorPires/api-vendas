@@ -2,13 +2,15 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  PrimaryColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 import { IUser } from '@modules/users/domain/models/IUser';
 @Entity('users')
-class User implements IUser {   
+class User implements IUser {
+  @PrimaryColumn()
   id: string;
 
   @Column()
