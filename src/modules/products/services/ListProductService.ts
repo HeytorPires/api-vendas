@@ -1,9 +1,10 @@
 import { getCustomRepository } from 'typeorm';
 import Product from '../infra/typeorm/entities/Product';
 import RedisCache from '@shared/cache/RedisCache';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 
+@injectable()
 class ListProductService {
   constructor(
     @inject('ProductsRepository')

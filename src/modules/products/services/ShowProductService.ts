@@ -1,11 +1,12 @@
 import Product from '../infra/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 
 interface IRequest {
   id: string;
 }
+@injectable()
 class ShowProductService {
   constructor(
     @inject('ProductsRepository')

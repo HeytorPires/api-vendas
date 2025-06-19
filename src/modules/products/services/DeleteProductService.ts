@@ -1,8 +1,9 @@
 import AppError from '@shared/errors/AppError';
 import RedisCache from '@shared/cache/RedisCache';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 
+@injectable()
 class DeleteProductService {
   constructor(
     @inject('ProductsRepository')

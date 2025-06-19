@@ -1,10 +1,10 @@
 import Product from '../infra/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
 import RedisCache from '@shared/cache/RedisCache';
-import { inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 import { IProductUpdate } from '../domain/models/IProductUpdate';
-
+@injectable()
 class UpdateProductService {
   constructor(
     @inject('ProductsRepository')

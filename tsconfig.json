@@ -8,6 +8,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": false,
+    "esModuleInterop": true,
     "noImplicitThis": true,
     "moduleResolution": "node",
     "baseUrl": ".",
