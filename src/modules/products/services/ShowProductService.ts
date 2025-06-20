@@ -1,7 +1,7 @@
-import Product from '../infra/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 import { inject, injectable } from 'tsyringe';
+import { IProduct } from '../domain/models/IProduct';
 
 interface IRequest {
   id: string;
@@ -14,7 +14,7 @@ class ShowProductService {
   ) {
     this.productsRepository;
   }
-  public async execute({ id }: IRequest): Promise<Product> {
+  public async execute({ id }: IRequest): Promise<IProduct> {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {

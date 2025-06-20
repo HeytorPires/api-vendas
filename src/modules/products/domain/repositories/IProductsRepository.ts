@@ -1,7 +1,7 @@
 import { IProduct } from '../models/IProduct';
 import { IProductCreate } from '../models/IProductCreate';
 
-interface IFindProducts {
+export interface IFindProducts {
   id: string;
 }
 

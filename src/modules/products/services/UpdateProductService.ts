@@ -1,9 +1,9 @@
-import Product from '../infra/typeorm/entities/Product';
 import AppError from '@shared/errors/AppError';
 import RedisCache from '@shared/cache/RedisCache';
 import { inject, injectable } from 'tsyringe';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 import { IProductUpdate } from '../domain/models/IProductUpdate';
+import { IProduct } from '../domain/models/IProduct';
 @injectable()
 class UpdateProductService {
   constructor(
@@ -17,7 +17,7 @@ class UpdateProductService {
     name,
     price,
     quantity,
-  }: IProductUpdate): Promise<Product | undefined> {
+  }: IProductUpdate): Promise<IProduct | undefined> {
     const product = await this.productsRepository.findById(id);
 
     if (!product) {
