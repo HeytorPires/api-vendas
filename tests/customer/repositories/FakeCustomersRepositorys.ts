@@ -7,13 +7,14 @@ import {
 } from '../../../src/modules/customers/domain/repositories/ICustomerRepository';
 import { ICreateCustomer } from '../../../src/modules/customers/domain/models/ICreateCustomer';
 import { IPaginateCustomer } from '../../../src/modules/customers/domain/models/IPaginateCustomer';
+import { ICustomer } from '@modules/customers/domain/models/ICustomer';
 
 class FakeCustomersRepository
   implements Omit<ICustomerRepository, 'remove' | 'findAll' | 'list'>
 {
   private customers: Customer[] = [];
 
-  public async create({ name, email }: ICreateCustomer): Promise<Customer> {
+  public async create({ name, email }: ICreateCustomer): Promise<ICustomer> {
     const customer = new Customer();
 
     customer.id = uuidv4();
@@ -25,7 +26,7 @@ class FakeCustomersRepository
     return customer;
   }
 
-  public async save(customer: Customer): Promise<Customer> {
+  public async save(customer: Customer): Promise<ICustomer> {
     const findIndex = this.customers.findIndex(
       (findCustomer) => findCustomer.id === customer.id
     );
@@ -59,15 +60,15 @@ class FakeCustomersRepository
       data: paginated,
     };
   }
-  public async findByName(name: string): Promise<Customer | undefined> {
+  public async findByName(name: string): Promise<ICustomer | undefined> {
     const customer = this.customers.find((c) => c.name === name);
     return customer;
   }
-  public async findById(id: string): Promise<Customer | undefined> {
+  public async findById(id: string): Promise<ICustomer | undefined> {
     const customer = this.customers.find((c) => c.id === id);
     return customer;
   }
-  public async findByEmail(email: string): Promise<Customer | undefined> {
+  public async findByEmail(email: string): Promise<ICustomer | undefined> {
     const customer = this.customers.find((c) => c.email === email);
     return customer;
   }
