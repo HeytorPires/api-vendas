@@ -5,7 +5,7 @@ import CreateProductService from '@modules/products/services/CreateProductServic
 
 let fakeProductRepository: FakeProductRepository;
 let createProduct: CreateProductService;
-describe('Create Customer', () => {
+describe('Create product', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
     createProduct = new CreateProductService(fakeProductRepository);
