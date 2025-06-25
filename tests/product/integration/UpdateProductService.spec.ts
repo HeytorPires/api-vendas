@@ -1,20 +1,24 @@
 import 'reflect-metadata';
 import FakeProductRepository from '../repositories/FakeProductRepository';
 import CreateProductService from '@modules/products/services/CreateProductService';
-import ShowProductService from '@modules/products/services/ShowProductService';
 import AppError from '@shared/errors/AppError';
-import UpdateCustomerService from '@modules/customers/services/UpdateCustomerService';
 import UpdateProductService from '@modules/products/services/UpdateProductService';
+import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let updateProduct: UpdateProductService;
 let createProduct: CreateProductService;
+let fakeCacheProvider: FakeCacheProvider;
 
 describe('Update product', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
+    fakeCacheProvider = new FakeCacheProvider();
     updateProduct = new UpdateProductService(fakeProductRepository);
-    createProduct = new CreateProductService(fakeProductRepository);
+    createProduct = new CreateProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
   });
 
   it('should be able to update a product existent', async () => {

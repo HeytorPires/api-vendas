@@ -7,9 +7,9 @@ export default class ResetPasswordController {
     const { password, token } = request.body;
     const sendForgotPasswordEmail = container.resolve(ResetPasswordService);
 
-    await sendForgotPasswordEmail.execute({ token, password });
+    const user = await sendForgotPasswordEmail.execute({ token, password });
 
-    response.status(204).json();
+    response.status(204).json(user);
     return;
   }
 }

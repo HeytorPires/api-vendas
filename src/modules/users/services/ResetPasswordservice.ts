@@ -7,6 +7,7 @@ import { IResetPasswordUser } from '../domain/models/IResetPasswordUser';
 import { inject, injectable } from 'tsyringe';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
 import { IUserTokensRepository } from '../domain/repositories/IUserTokensRepository';
+import { IUser } from '../domain/models/IUser';
 
 @injectable()
 class ResetPasswordService {
@@ -16,7 +17,10 @@ class ResetPasswordService {
     @inject('UsersTokensRepository')
     private usersTokensRepository: IUserTokensRepository
   ) {}
-  public async execute({ token, password }: IResetPasswordUser) {
+  public async execute({
+    token,
+    password,
+  }: IResetPasswordUser): Promise<IUser> {
     const userToken = await this.usersTokensRepository.findByToken(token);
 
     if (!userToken) {

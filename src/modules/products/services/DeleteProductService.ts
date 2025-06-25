@@ -1,13 +1,15 @@
 import AppError from '@shared/errors/AppError';
-import RedisCache from '@shared/cache/RedisCache';
 import { inject, injectable } from 'tsyringe';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
+import { ICacheProvider } from '@shared/providers/cache/models/IRedisProvider';
 
 @injectable()
 class DeleteProductService {
   constructor(
     @inject('ProductsRepository')
-    private productsRepository: IProductsRepository
+    private productsRepository: IProductsRepository,
+    @inject('cacheProvider')
+    private cacheProvider: ICacheProvider
   ) {
     this.productsRepository;
   }
@@ -18,9 +20,7 @@ class DeleteProductService {
       throw new AppError('Product not found.');
     }
 
-    const redisCache = new RedisCache();
-
-    await redisCache.invalidate('api-vendas-PRODUCT_LIST');
+    await this.cacheProvider.invalidate('api-vendas-PRODUCT_LIST');
 
     await this.productsRepository.remove(product);
   }

@@ -3,16 +3,22 @@ import FakeProductRepository from '../repositories/FakeProductRepository';
 import DeleteProductService from '@modules/products/services/DeleteProductService';
 import CreateProductService from '@modules/products/services/CreateProductService';
 import AppError from '@shared/errors/AppError';
+import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let deleteProduct: DeleteProductService;
 let createProduct: CreateProductService;
+let fakeCacheProvider: FakeCacheProvider;
 
 describe('Delete product', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
+    fakeCacheProvider = new FakeCacheProvider();
     deleteProduct = new DeleteProductService(fakeProductRepository);
-    createProduct = new CreateProductService(fakeProductRepository);
+    createProduct = new CreateProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
   });
 
   it('should be able to delete a product existent', async () => {

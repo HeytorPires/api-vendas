@@ -2,13 +2,20 @@ import 'reflect-metadata';
 import AppError from '../../../src/shared/errors/AppError';
 import FakeProductRepository from '../repositories/FakeProductRepository';
 import CreateProductService from '@modules/products/services/CreateProductService';
+import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let createProduct: CreateProductService;
+let fakeCacheProvider: FakeCacheProvider;
+
 describe('Create product', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
-    createProduct = new CreateProductService(fakeProductRepository);
+    fakeCacheProvider = new FakeCacheProvider();
+    createProduct = new CreateProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
   });
 
   it('should be able to create a new product', async () => {

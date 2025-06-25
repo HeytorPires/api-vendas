@@ -3,16 +3,21 @@ import FakeProductRepository from '../repositories/FakeProductRepository';
 import CreateProductService from '@modules/products/services/CreateProductService';
 import ShowProductService from '@modules/products/services/ShowProductService';
 import AppError from '@shared/errors/AppError';
+import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let showProduct: ShowProductService;
 let createProduct: CreateProductService;
-
+let fakeCacheProvider: FakeCacheProvider;
 describe('Show products', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
+    fakeCacheProvider = new FakeCacheProvider();
     showProduct = new ShowProductService(fakeProductRepository);
-    createProduct = new CreateProductService(fakeProductRepository);
+    createProduct = new CreateProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
   });
 
   it('should be able to show a product existent', async () => {

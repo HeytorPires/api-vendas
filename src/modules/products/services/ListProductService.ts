@@ -1,20 +1,20 @@
-import RedisCache from '@shared/cache/RedisCache';
 import { inject, injectable } from 'tsyringe';
 import { IProductsRepository } from '../domain/repositories/IProductsRepository';
 import { IProduct } from '../domain/models/IProduct';
+import { ICacheProvider } from '@shared/providers/cache/models/IRedisProvider';
 
 @injectable()
 class ListProductService {
   constructor(
     @inject('ProductsRepository')
-    private productsRepository: IProductsRepository
+    private productsRepository: IProductsRepository,
+    @inject('cacheProvider')
+    private cacheProvider: ICacheProvider
   ) {
     this.productsRepository;
   }
   public async execute(): Promise<IProduct[] | null> {
-    const redisCache = new RedisCache();
-
-    let products = await redisCache.recover<IProduct[]>(
+    let products = await this.cacheProvider.recover<IProduct[]>(
       'api-vendas-PRODUCT_LIST'
     );
 
@@ -22,7 +22,7 @@ class ListProductService {
       products = await this.productsRepository.list();
 
       if (products) {
-        await redisCache.save('api-vendas-PRODUCT_LIST', products);
+        await this.cacheProvider.save('api-vendas-PRODUCT_LIST', products);
       }
     }
 

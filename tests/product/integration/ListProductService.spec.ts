@@ -2,16 +2,21 @@ import 'reflect-metadata';
 import FakeProductRepository from '../repositories/FakeProductRepository';
 import ListProductService from '@modules/products/services/ListProductService';
 import CreateProductService from '@modules/products/services/CreateProductService';
+import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let listProduct: ListProductService;
 let createProduct: CreateProductService;
-
+let fakeCacheProvider: FakeCacheProvider;
 describe('List products', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
+    fakeCacheProvider = new FakeCacheProvider();
     listProduct = new ListProductService(fakeProductRepository);
-    createProduct = new CreateProductService(fakeProductRepository);
+    createProduct = new CreateProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
   });
 
   it('should be able to list a products', async () => {

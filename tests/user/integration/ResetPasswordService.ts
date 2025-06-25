@@ -25,14 +25,17 @@ describe('Create User', () => {
     );
   });
 
-  it('should be able to create a new User', async () => {
+  it('should be able to reset a password', async () => {
     const User = await CreateUser.execute({
       name: 'João silva',
       email: 'João@gmail.com',
       password: '123456',
     });
-    const { password } = User;
-    const token = uuidv4();
+    const { password, id } = User;
+
+    const response = await fakeUsersTokensRepository.generate(id);
+    const { token } = response;
+
     await ResetPassword.execute({ token, password });
     expect(User).toHaveProperty('id');
   });
