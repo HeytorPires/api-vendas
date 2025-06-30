@@ -3,7 +3,7 @@ import FakeProductRepository from '../repositories/FakeProductRepository';
 import CreateProductService from '@modules/products/services/CreateProductService';
 import AppError from '@shared/errors/AppError';
 import UpdateProductService from '@modules/products/services/UpdateProductService';
-import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
+import FakeCacheProvider from '../../providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let updateProduct: UpdateProductService;
@@ -14,7 +14,10 @@ describe('Update product', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
     fakeCacheProvider = new FakeCacheProvider();
-    updateProduct = new UpdateProductService(fakeProductRepository);
+    updateProduct = new UpdateProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
     createProduct = new CreateProductService(
       fakeProductRepository,
       fakeCacheProvider
@@ -31,15 +34,13 @@ describe('Update product', () => {
 
     const { id } = product;
     const [nameNew, priceNew, quantityNew] = ['Teclado', 100, 150];
-
-    await expect(
-      updateProduct.execute({
-        id,
-        name: nameNew,
-        price: priceNew,
-        quantity: quantityNew,
-      })
-    ).toHaveProperty('name', nameNew);
+    const newProduct = await updateProduct.execute({
+      id,
+      name: nameNew,
+      price: priceNew,
+      quantity: quantityNew,
+    });
+    expect(newProduct).toHaveProperty('name', nameNew);
   });
   it('should be able to update a product not existent', async () => {
     const id = '123456789abcde';

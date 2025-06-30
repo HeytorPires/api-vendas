@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import AppError from '../../../src/shared/errors/AppError';
 import FakeProductRepository from '../repositories/FakeProductRepository';
 import CreateProductService from '@modules/products/services/CreateProductService';
-import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
+import FakeCacheProvider from '../../providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let createProduct: CreateProductService;
@@ -24,9 +24,7 @@ describe('Create product', () => {
       price: 110,
       quantity: 150,
     };
-    console.log('Iniciando criação do produto...');
     const product = await createProduct.execute({ name, price, quantity });
-    console.log('Produto criado:', product);
     expect(product).toHaveProperty('id');
   }, 15000);
   it('should not be able to create two Product with the same name', async () => {

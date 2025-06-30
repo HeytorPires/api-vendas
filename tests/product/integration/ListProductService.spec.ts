@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import FakeProductRepository from '../repositories/FakeProductRepository';
 import ListProductService from '@modules/products/services/ListProductService';
 import CreateProductService from '@modules/products/services/CreateProductService';
-import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
+import FakeCacheProvider from '../../providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let listProduct: ListProductService;
@@ -12,7 +12,10 @@ describe('List products', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
     fakeCacheProvider = new FakeCacheProvider();
-    listProduct = new ListProductService(fakeProductRepository);
+    listProduct = new ListProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
     createProduct = new CreateProductService(
       fakeProductRepository,
       fakeCacheProvider

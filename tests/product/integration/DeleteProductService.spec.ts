@@ -3,7 +3,7 @@ import FakeProductRepository from '../repositories/FakeProductRepository';
 import DeleteProductService from '@modules/products/services/DeleteProductService';
 import CreateProductService from '@modules/products/services/CreateProductService';
 import AppError from '@shared/errors/AppError';
-import FakeCacheProvider from 'tests/providers/FakeCacheProvider';
+import FakeCacheProvider from '../../providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let deleteProduct: DeleteProductService;
@@ -14,7 +14,10 @@ describe('Delete product', () => {
   beforeEach(() => {
     fakeProductRepository = new FakeProductRepository();
     fakeCacheProvider = new FakeCacheProvider();
-    deleteProduct = new DeleteProductService(fakeProductRepository);
+    deleteProduct = new DeleteProductService(
+      fakeProductRepository,
+      fakeCacheProvider
+    );
     createProduct = new CreateProductService(
       fakeProductRepository,
       fakeCacheProvider
