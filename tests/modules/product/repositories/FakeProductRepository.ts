@@ -3,7 +3,6 @@ import {
   IProductsRepository,
 } from '@modules/products/domain/repositories/IProductsRepository';
 import { IProductCreate } from '@modules/products/domain/models/IProductCreate';
-import Product from '@modules/products/infra/typeorm/entities/Product';
 import { IProduct } from '@modules/products/domain/models/IProduct';
 import { v4 as uuidv4 } from 'uuid';
 class FakeProductRepository

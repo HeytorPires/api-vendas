@@ -1,6 +1,6 @@
 import 'reflect-metadata';
-import AppError from '../../../src/shared/errors/AppError';
-import CreateSessionsService from '../../../src/modules/users/services/CreateSessionsService';
+import AppError from '../../../../src/shared/errors/AppError';
+import CreateSessionsService from '../../../../src/modules/users/services/CreateSessionsService';
 import FakeUsersRepository from '../repositories/FakeUsersRepository';
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 

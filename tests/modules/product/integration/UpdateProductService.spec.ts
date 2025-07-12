@@ -3,7 +3,7 @@ import FakeProductRepository from '../repositories/FakeProductRepository';
 import CreateProductService from '@modules/products/services/CreateProductService';
 import AppError from '@shared/errors/AppError';
 import UpdateProductService from '@modules/products/services/UpdateProductService';
-import FakeCacheProvider from '../../providers/FakeCacheProvider';
+import FakeCacheProvider from '../../../providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let updateProduct: UpdateProductService;

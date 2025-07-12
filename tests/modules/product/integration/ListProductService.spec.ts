@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import FakeProductRepository from '../repositories/FakeProductRepository';
 import ListProductService from '@modules/products/services/ListProductService';
 import CreateProductService from '@modules/products/services/CreateProductService';
-import FakeCacheProvider from '../../providers/FakeCacheProvider';
+import FakeCacheProvider from '../../../providers/FakeCacheProvider';
 
 let fakeProductRepository: FakeProductRepository;
 let listProduct: ListProductService;

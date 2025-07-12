@@ -4,7 +4,6 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 import FakeUsersRepository from '../repositories/FakeUsersRepository';
 import ResetPasswordService from '@modules/users/services/ResetPasswordservice';
 import FakeUsersTokensRepository from '../repositories/FakeUsersTokensRepository';
-import { v4 as uuidv4 } from 'uuid';
 
 let fakeUsersRepository: FakeUsersRepository;
 let fakeUsersTokensRepository: FakeUsersTokensRepository;
